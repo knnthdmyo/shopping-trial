@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Card from '../common/Card';
 import FilterGroup from '../common/FilterGroup';
 import SearchBox from '../common/SearchBox';
+import Toggle from '../common/ViewToggle';
 
 const Home = () => {
     const [items, setItems] = useState([]);
@@ -25,6 +26,7 @@ const Home = () => {
 
     useEffect(() => {
         if (originalItems.length !== 0) {
+            console.log(originalItems);
             const cat = originalItems.map(({ category }) => category).filter((e, i, a) => a.indexOf(e) === i)
             setCatFilters(cat)
         }
@@ -41,17 +43,23 @@ const Home = () => {
 
     return (
         <div className="flex flex-col">
-            <div className="flex flex-col w-full p-4 bg-gray-900">
-                <span className="flex gap-4 self-start">
-                    <SearchBox onChange={({ currentTarget }) => handleSearchChange(currentTarget.value)} />
-                    <button onClick={() => setShowFilters((show) => !show)}>
-                        <i className="bi bi-filter mr-2 "></i>
-                        Filters
-                    </button>
+            {/* sticky flex flex-col z-10 p-3 bg-brand-dark top-12 md:top-20 */}
+            <div className="sticky flex z-11 flex-col w-full top-16 p-5 bg-gray-900">
+                <span className="flex flex-grow items-center justify-between">
+                    <span className="flex gap-4">
+                        <SearchBox onChange={(keyword) => handleSearchChange(keyword)} />
+                        <button className="text-white" onClick={() => setShowFilters((show) => !show)}>
+                            <i className="bi bi-filter mr-2 "></i>
+                            Filters
+                        </button>
+                    </span>
+                    <div>
+                        <Toggle onChange={(v) => console.log(v)} />
+                    </div>
                 </span>
                 {showFilters && (
-                    <div className="mt-4">
-                        <FilterGroup label="Category" filters={catFilters} />
+                    <div className="mt-4 flex flex-full gap-8">
+                        <FilterGroup label="Categories" filters={catFilters} onFilterChange={(v) => console.log(v)} />
                     </div>
                 )}
             </div>
