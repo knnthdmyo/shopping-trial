@@ -24,7 +24,7 @@ const FilterGroup = ({ label, filters, onFilterChange }: IFilterGroup) => {
 
     return (
         <div className="text-gray-500 flex flex-col w-max gap-4">
-            <span className="text-lg">
+            <span className="text-lg text-white">
                 {label}
             </span>
             <div className="border-t w-full" />

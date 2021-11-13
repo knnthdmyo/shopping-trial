@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Card from '../common/Card';
+import ItemEntry from '../common/ItemEntry';
 import FilterGroup from '../common/FilterGroup';
 import SearchBox from '../common/SearchBox';
 import Toggle from '../common/ViewToggle';
@@ -8,7 +9,9 @@ const Home = () => {
     const [items, setItems] = useState([]);
     const [originalItems, setOriginalItems] = useState([]);
     const [catFilters, setCatFilters] = useState<string[]>(['']);
+    const [activeFilters, setActiveFilters] = useState<string[]>([]);
     const [showFilters, setShowFilters] = useState<boolean>(false);
+    const [view, setView] = useState<string>('list');
 
     const fetchItems = () => {
         fetch('https://fakestoreapi.com/products')
@@ -20,9 +23,7 @@ const Home = () => {
             .catch((err) => console.error(err))
     };
 
-    useEffect(() => {
-        fetchItems();
-    }, [])
+    useEffect(() => { fetchItems(); }, [])
 
     useEffect(() => {
         if (originalItems.length !== 0) {
@@ -41,9 +42,12 @@ const Home = () => {
         }
     }
 
+    // useEffect(() => {
+    //     const x = originalItems.filter();
+    // }, [activeFilters]);
+
     return (
         <div className="flex flex-col">
-            {/* sticky flex flex-col z-10 p-3 bg-brand-dark top-12 md:top-20 */}
             <div className="sticky flex z-11 flex-col w-full top-16 p-5 bg-gray-900">
                 <span className="flex flex-grow items-center justify-between">
                     <span className="flex gap-4">
@@ -54,20 +58,20 @@ const Home = () => {
                         </button>
                     </span>
                     <div>
-                        <Toggle onChange={(v) => console.log(v)} />
+                        <Toggle onChange={(v) => setView(v)} />
                     </div>
                 </span>
                 {showFilters && (
                     <div className="mt-4 flex flex-full gap-8">
-                        <FilterGroup label="Categories" filters={catFilters} onFilterChange={(v) => console.log(v)} />
+                        <FilterGroup label="Categories" filters={catFilters} onFilterChange={(v) => setActiveFilters(v)} />
                     </div>
                 )}
             </div>
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8 w-full">
-                {items.map((d, i) => (
-                    <Card key={i} {...d} />
-                ))}
-            </div>
+            {view === 'grid' ? (
+                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8 w-full">
+                    {items.map((d, i) => <Card key={i} {...d} />)}
+                </div>
+            ) : <div>{items.map((d, i) => <ItemEntry key={i} {...d} />)}</div>}
         </div>
     );
 }
