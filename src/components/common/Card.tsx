@@ -7,9 +7,10 @@ export interface ICard {
     description?: string;
     image: string,
     rating: { rate: number, count: number },
+    price: number,
 }
 
-const Card = ({ title, description, category, image, rating }: ICard) => {
+const Card = ({ title, description, category, image, rating, price }: ICard) => {
     return (
         <div className="flex flex-col gap-8 max-h-max shadow-lg rounded-lg h-auto w-80 md:w-80 m-auto p-4">
             <img alt={`${image}-alt`} src={image} className="max-h-60 w-full object-cover rounded-2xl" />
@@ -23,7 +24,10 @@ const Card = ({ title, description, category, image, rating }: ICard) => {
                     {description}
                 </p>
             </div>
-            <div className="flex self-end gap-2">
+            <div className="flex w-full justify-between items-center gap-2">
+                <span>
+                    {`$ ${price}`}
+                </span>
                 <button
                     className="flex gap-2 bg-red-400 hover:bg-red-500 pointer-cursor text-white px-3 py-2 border rounded-xl"
                     onClick={() => alert('clicked')}

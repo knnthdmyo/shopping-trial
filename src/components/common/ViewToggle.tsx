@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Toggle = ({ onChange }: { onChange: (value: boolean | string) => void }) => {
+const Toggle = ({ onChange }: { onChange: (value: string) => void }) => {
     const [view, setView] = useState<string>('list');
 
     const handleOnChange = (v: string) => {

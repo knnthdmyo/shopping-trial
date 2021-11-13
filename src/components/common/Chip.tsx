@@ -4,7 +4,7 @@ export interface IChip {
 
 const Chip = ({ tags }: IChip) => {
     return (
-        <div className="flex flex-grow">
+        <div className="flex flex-grow max-h-min gap-2">
             Tags:
             {Array.isArray(tags) ? (
                 tags.map((tag) => (
