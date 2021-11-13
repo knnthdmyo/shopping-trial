@@ -1,6 +1,6 @@
 const about = () => {
     return (
-        <div class="text-2xl">
+        <div className="text-2xl">
             about
         </div>
     );

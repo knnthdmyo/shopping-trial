@@ -1,11 +1,11 @@
 import { Fragment } from 'react';
 
-const Home = () => {
+const Blogs = () => {
     return (
         <Fragment>
-            <h1>home</h1>
+            <h1>Cart</h1>
         </Fragment>
     );
 }
 
-export default Home;
+export default Blogs
