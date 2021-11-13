@@ -4,12 +4,13 @@ import ItemEntry from '../common/ItemEntry';
 import FilterGroup from '../common/FilterGroup';
 import SearchBox from '../common/SearchBox';
 import Toggle from '../common/ViewToggle';
+import ItemLoader from '../common/ItemLoader';
+import { is_empty } from '../../utils/objectHelpers';
 
 const Home = () => {
     const [items, setItems] = useState([]);
     const [originalItems, setOriginalItems] = useState([]);
     const [catFilters, setCatFilters] = useState<string[]>(['']);
-    const [activeFilters, setActiveFilters] = useState<string[]>([]);
     const [showFilters, setShowFilters] = useState<boolean>(false);
     const [view, setView] = useState<string>('list');
 
@@ -42,9 +43,15 @@ const Home = () => {
         }
     }
 
-    // useEffect(() => {
-    //     const x = originalItems.filter();
-    // }, [activeFilters]);
+    const handleFilterChange = (filters: string[]) => {
+        if (!is_empty(filters)) {
+            console.log('filters', filters);
+            const filtered = originalItems.filter(({ category }) => filters.includes(category));
+            setItems(filtered);
+        } else {
+            setItems(originalItems);
+        }
+    }
 
     return (
         <div className="flex flex-col">
@@ -56,6 +63,18 @@ const Home = () => {
                             <i className="bi bi-filter mr-2 "></i>
                             Filters
                         </button>
+                        {showFilters && (
+                            <button
+                                className="text-white"
+                                onClick={() => {
+                                    setItems(originalItems);
+                                    setShowFilters(false);
+                                }}
+                            >
+                                <i className="bi bi-arrow-counterclockwise mr-2" />
+                                Clear Filters
+                            </button>
+                        )}
                     </span>
                     <div>
                         <Toggle onChange={(v) => setView(v)} />
@@ -63,15 +82,20 @@ const Home = () => {
                 </span>
                 {showFilters && (
                     <div className="mt-4 flex flex-full gap-8">
-                        <FilterGroup label="Categories" filters={catFilters} onFilterChange={(v) => setActiveFilters(v)} />
+                        <FilterGroup label="Categories" filters={catFilters} onFilterChange={(v) => handleFilterChange(v)} />
                     </div>
                 )}
             </div>
-            {view === 'grid' ? (
-                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8 w-full">
-                    {items.map((d, i) => <Card key={i} {...d} />)}
-                </div>
-            ) : <div>{items.map((d, i) => <ItemEntry key={i} {...d} />)}</div>}
+            {items.length !== 0
+                ? (
+                    view === 'grid' ? (
+                        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8 w-full">
+                            {items.map((d, i) => <Card key={i} {...d} />)}
+                        </div>
+                    ) : <div>{items.map((d, i) => <ItemEntry key={i} {...d} />)}</div>
+                ) : <ItemLoader items={20} />
+            }
+
         </div>
     );
 }

@@ -20,7 +20,7 @@ const Card = ({ title, description, category, image, rating, price }: ICard) => 
                 </p>
                 <RatingIndicator {...rating} />
                 {category && <Chip tags={category} />}
-                <p className="flex flex-wrap overflow-ellipsis overflow-hidden text-gray-600 dark:text-gray-300 font-light text-md">
+                <p className="line-clam-3 flex overflow-hidden text-gray-600 dark:text-gray-300 font-light text-md">
                     {description}
                 </p>
             </div>

@@ -18,7 +18,7 @@ $ npm install
 
 ```bash
 # start development
-$ npm run start:dev
+$ npm run start
 ```
 
 ## Testing
