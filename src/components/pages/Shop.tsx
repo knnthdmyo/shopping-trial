@@ -8,14 +8,15 @@ import { is_empty } from '../../utils/objectHelpers';
 import { ProductTypes } from '../../constants/types';
 
 const Shop = () => {
-  const { products } = useContext(Products);
+  const { products, updateCart, cart } = useContext(Products);
   const [items, setItems] = useState<ProductTypes[]>([]);
   const [catFilters, setCatFilters] = useState<string[]>(['']);
   const [view, setView] = useState<string>('list');
-  const [cart, setCart] = useState<ProductTypes[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<ProductTypes[]>([]);
 
   useEffect(() => {
     setItems(products);
+    setSelectedProducts(cart)
   }, [products])
 
   useEffect(() => {
@@ -43,28 +44,32 @@ const Shop = () => {
     }
   }
 
-  const handleAddToCart = (product: ProductTypes) => { setCart((prevState) => [...prevState, product]) }
+  const handleProductClick = (product: ProductTypes) => {
+    setSelectedProducts((prev) => [...prev, product]);
+  }
+
+  useEffect(() => {
+    updateCart(selectedProducts)
+  }, [selectedProducts]);
 
   return (
-    <Products.Provider value={{ products, cart: cart }}>
-      <div className="flex flex-col">
-        <Navbar
-          handleSearch={(word) => handleSearchChange(word)}
-          handleToggleChange={(v) => setView(v)}
-          filters={catFilters}
-          handleFilterChange={(f) => handleFilterChange(f)}
-        />
-        {items.length !== 0
-          ? (
-            view === 'grid' ? (
-              <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8 w-full">
-                {items.map((d, i) => <Card key={i} onClick={() => handleAddToCart(d)} product={d} />)}
-              </div>
-            ) : <div>{items.map((d, i) => <ItemEntry key={i} onClick={() => handleAddToCart(d)} product={d} />)}</div>
-          ) : <ItemLoader items={20} />
-        }
-      </div>
-    </Products.Provider>
+    <div className="flex flex-col">
+      <Navbar
+        handleSearch={(word) => handleSearchChange(word)}
+        handleToggleChange={(v) => setView(v)}
+        filters={catFilters}
+        handleFilterChange={(f) => handleFilterChange(f)}
+      />
+      {items.length !== 0
+        ? (
+          view === 'grid' ? (
+            <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8 w-full">
+              {items.map((d, i) => <Card key={i} onClick={() => handleProductClick(d)} product={d} />)}
+            </div>
+          ) : <div>{items.map((d, i) => <ItemEntry key={i} onClick={() => handleProductClick(d)} product={d} />)}</div>
+        ) : <ItemLoader items={20} />
+      }
+    </div>
   );
 }
 

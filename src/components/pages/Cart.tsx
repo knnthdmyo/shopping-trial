@@ -1,21 +1,52 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import ItemEntry from '../common/ItemEntry';
 import Navbar from '../common/Navbar';
 import Products from '../../providers/store';
+import { ProductTypes } from '../../constants/types';
 
 const Cart = () => {
+  interface CartItems extends ProductTypes {
+    quantity: number,
+  };
 
   const { cart } = useContext(Products)
+  const [displayedItems, setDisplayedItems] = useState<CartItems[]>([])
 
-  useEffect(() => { console.log(cart); }, [cart]);
+  useEffect(() => {
+    const reduced: CartItems[] = cart
+      .reduce((acc, cr, _i, a) => (
+        [...acc, { ...cr, quantity: a.filter(({ title }) => title === cr.title).length }]
+      ), []);
+
+    const filtered = reduced
+      .filter((e, i, a) => a
+        .findIndex(({ title }) => e.title === title) === i)
+
+    setDisplayedItems(filtered);
+  }, [cart]);
+
+
 
   return (
-    <Fragment>
+    <div className="flex flex-col">
       <Navbar
         handleSearch={() => { }}
         handleToggleChange={() => { }}
         hideFilterButton
+        hideToggle
       />
-    </Fragment>
+      <div className='flex flex-col w-full gap-4'>
+        {displayedItems.map((item, i) => <ItemEntry key={i} product={item} hideButton />)}
+        <div className="flex flex-grow gap-4 sticky bottom-0 w-screen p-5 bg-white">
+          <div className="self-end items-center flex gap-4 text-2xl text-gray-700">
+            {`Total: $${cart.reduce((ac, { price }) => ac + price, 0).toFixed(2)}`}
+            <button className="bg-red-700 w-max text-white cursor-pointer px-4 py-2 rounded-lg text-sm">
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
+      </div >
+    </div >
   );
 }
 

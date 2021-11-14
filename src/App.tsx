@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import BaseLoader from './components/common/loader';
 import Products from './providers/store';
 import * as ROUTES from './constants/routes';
+import { ProductTypes } from './constants/types';
 
 const Shop = lazy(() => import('./components/pages/Shop'));
 const Cart = lazy(() => import('./components/pages/Cart'));
@@ -17,8 +18,18 @@ const App = () => {
       .catch((err) => console.error(err))
   }, []);
 
+  const handleAddToCart = (cart: ProductTypes[]) => {
+    setProductList((prevState) => ({ ...prevState, cart: cart }))
+    return cart;
+  }
+
   return (
-    <Products.Provider value={productLists}>
+    <Products.Provider
+      value={{
+        ...productLists,
+        updateCart: handleAddToCart,
+      }}
+    >
       <Router>
         <Suspense fallback={<BaseLoader />}>
           <nav className="sticky top-0 z-10 flex flex-grow p-5 w-screen text-center text-grey-darkest items-center sm:justify-between bg-white">
@@ -30,6 +41,7 @@ const App = () => {
               <Link to={ROUTES.ABOUT} className="flex px-4 gap-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
                 <span>
                   <i className="bi bi-cart" />
+                  {productLists.cart.length}
                 </span>
                 Cart
               </Link>

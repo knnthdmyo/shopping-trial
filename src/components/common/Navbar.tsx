@@ -9,14 +9,15 @@ export interface INavbar {
   filters?: string[],
   handleFilterChange?: (f: string[]) => void,
   hideFilterButton?: boolean,
+  hideToggle?: boolean,
 }
 
-const Navbar = ({ handleToggleChange, hideFilterButton, handleSearch, filters, handleFilterChange }: INavbar) => {
+const Navbar = ({ handleToggleChange, hideFilterButton, hideToggle, handleSearch, filters, handleFilterChange }: INavbar) => {
 
   const [showFilters, setShowFilters] = useState(false);
 
   return (
-    <span className="sticky bg-blue-200 p-5 z-11 w-full top-20 flex flex-grow items-center justify-between">
+    <span className="sticky bg-red-700 p-5 z-11 w-full top-16 flex flex-grow items-center justify-between">
       <span className="flex gap-4">
         <SearchBox onChange={(keyword) => handleSearch(keyword)} />
         {!hideFilterButton && (
@@ -26,9 +27,7 @@ const Navbar = ({ handleToggleChange, hideFilterButton, handleSearch, filters, h
           </button>
         )}
       </span>
-      <div>
-        <Toggle onChange={(v) => handleToggleChange(v)} />
-      </div>
+      {!hideToggle && <Toggle onChange={(v) => handleToggleChange(v)} />}
       {showFilters && (
         <div className="mt-4 flex flex-full gap-8">
           <FilterGroup label="Categories" filters={filters} onFilterChange={(v) => handleFilterChange(v)} />

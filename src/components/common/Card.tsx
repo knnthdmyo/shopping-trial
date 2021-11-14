@@ -5,9 +5,10 @@ import RatingIndicator from "./Rating";
 export interface ICard {
   product: ProductTypes,
   onClick?: () => void,
+  buttonLabel?: string,
 }
 
-const Card = ({ product, onClick }: ICard) => {
+const Card = ({ product, onClick, buttonLabel }: ICard) => {
   const { title, description, category, image, rating, price } = product;
   return (
     <div className="flex flex-col gap-8 max-h-max shadow-lg rounded-lg h-auto w-80 md:w-80 m-auto p-4">
@@ -31,7 +32,7 @@ const Card = ({ product, onClick }: ICard) => {
           onClick={onClick}
         >
           <i className="bi bi-cart-plus"></i>
-          Add to cart
+          {buttonLabel || 'add to cart'}
         </button>
       </div>
     </div>
