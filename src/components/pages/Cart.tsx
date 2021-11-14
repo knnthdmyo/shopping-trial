@@ -1,11 +1,17 @@
-import { Fragment } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
+import Products from '../../providers/store';
 
-const Blogs = () => {
-    return (
-        <Fragment>
-            <h1>Cart</h1>
-        </Fragment>
-    );
+const Cart = () => {
+
+  const { cart } = useContext(Products)
+
+  useEffect(() => { console.log(cart); }, [cart]);
+
+  return (
+    <Fragment>
+      <h1>Cart</h1>
+    </Fragment>
+  );
 }
 
-export default Blogs
+export default Cart
