@@ -23,7 +23,7 @@ const App = () => {
         <Suspense fallback={<BaseLoader />}>
           <nav className="sticky top-0 z-10 flex flex-grow p-5 w-screen text-center text-grey-darkest items-center sm:justify-between bg-white">
             <Link to={ROUTES.HOME} className="flex items-center gap-2 text-2xl hover:text-blue">
-              <i className="bi bi-shop-window text-3xl" />
+              <i className="bi bi-shop-window text-2xl" />
               Shopping - Trial
             </Link>
             <div className="flex gap-4 justify-between">

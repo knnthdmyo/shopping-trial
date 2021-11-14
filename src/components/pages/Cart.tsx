@@ -1,4 +1,5 @@
 import { Fragment, useContext, useEffect } from 'react';
+import Navbar from '../common/Navbar';
 import Products from '../../providers/store';
 
 const Cart = () => {
@@ -9,7 +10,11 @@ const Cart = () => {
 
   return (
     <Fragment>
-      <h1>Cart</h1>
+      <Navbar
+        handleSearch={() => { }}
+        handleToggleChange={() => { }}
+        hideFilterButton
+      />
     </Fragment>
   );
 }
