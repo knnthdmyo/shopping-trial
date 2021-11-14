@@ -13,7 +13,7 @@ const Chip = ({ tags }: IChip) => {
                     </span>
                 ))
             ) : (
-                <span className='text-xs px-2 py-1 capitalize border rounded-2xl bg-gray-200'>
+                <span className="text-xs px-2 py-1 capitalize border rounded-2xl bg-gray-200">
                     {`${tags}`}
                 </span>
             )}

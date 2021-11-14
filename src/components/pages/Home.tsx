@@ -6,10 +6,11 @@ import SearchBox from '../common/SearchBox';
 import Toggle from '../common/ViewToggle';
 import ItemLoader from '../common/ItemLoader';
 import { is_empty } from '../../utils/objectHelpers';
+import { ProductTypes } from '../../constants/types';
 
 const Home = () => {
-    const [items, setItems] = useState([]);
-    const [originalItems, setOriginalItems] = useState([]);
+    const [items, setItems] = useState<ProductTypes[]>([]);
+    const [originalItems, setOriginalItems] = useState<ProductTypes[]>([]);
     const [catFilters, setCatFilters] = useState<string[]>(['']);
     const [showFilters, setShowFilters] = useState<boolean>(false);
     const [view, setView] = useState<string>('list');
@@ -24,11 +25,12 @@ const Home = () => {
             .catch((err) => console.error(err))
     };
 
-    useEffect(() => { fetchItems(); }, [])
+    useEffect(() => {
+        fetchItems();
+    }, [])
 
     useEffect(() => {
         if (originalItems.length !== 0) {
-            console.log(originalItems);
             const cat = originalItems.map(({ category }) => category).filter((e, i, a) => a.indexOf(e) === i)
             setCatFilters(cat)
         }
@@ -36,7 +38,7 @@ const Home = () => {
 
     const handleSearchChange = (keyword: string) => {
         if (keyword) {
-            const result = [...items].filter((item) => Object.keys(item).some((key) => String(item[key]).match((new RegExp(keyword, 'i')))))
+            const result = items.filter((item) => Object.keys(item).some((key: string) => (item: Record<string, any>) => String(item[key]).match((new RegExp(keyword, 'i')))))
             setItems(result);
         } else {
             setItems(originalItems);
@@ -45,7 +47,6 @@ const Home = () => {
 
     const handleFilterChange = (filters: string[]) => {
         if (!is_empty(filters)) {
-            console.log('filters', filters);
             const filtered = originalItems.filter(({ category }) => filters.includes(category));
             setItems(filtered);
         } else {
