@@ -1,5 +1,5 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import TextField from "../components/common/TextField";
 import { ProductTypes } from "../constants/types";
 import Products from '../providers/store';
@@ -7,9 +7,11 @@ import Products from '../providers/store';
 const AddNew = () => {
   const navigate = useNavigate();
   const { initialState } = useContext(Products);
+  const { state } = useLocation();
   const [formData, setFormData] = useState<ProductTypes>(initialState);
 
   const handleOnChange = (v: any) => setFormData((prev) => ({ ...prev, ...v }));
+  useEffect(() => { setFormData({ ...state }) }, [state]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -19,14 +21,14 @@ const AddNew = () => {
   useEffect(() => { console.log(formData) }, [formData])
 
   return (
-    <div className="px-5 w-2/4">
-      <span className="flex gap-2 items-center mb-5">
+    <div className="flex flex-col w-full px-5 py-2">
+      <span className="flex flex-grow gap-2 items-center w-full mb-5">
         <button className="text-2xl" onClick={() => navigate('/')}>
           <i className="bi bi-arrow-left-circle" />
         </button>
-        <h1>New Item</h1>
+        <h1 className="text-sm font-bold uppercase">New Item</h1>
       </span>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2  bg-white  shadow-2xl rounded-xl border border-2 p-5 w-2/4">
         <TextField name="title" value={handleOnChange} initialValue={formData.title} />
         <TextField rows={2} name="description" value={handleOnChange} initialValue={formData.description} />
         <TextField type="number" name="price" value={handleOnChange} initialValue={String(formData.price)} />
@@ -34,7 +36,7 @@ const AddNew = () => {
           Submit
         </button>
       </form>
-    </div>
+    </div >
   );
 }
 

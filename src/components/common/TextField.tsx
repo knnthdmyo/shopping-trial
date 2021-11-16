@@ -1,7 +1,14 @@
 import { ChangeEvent } from 'react';
-import { IInput } from '../../constants/types';
 
-export default function TextField({ name, value, rows, type, initialValue }: IInput) {
+export interface ITextField {
+  type?: string;
+  initialValue?: string;
+  name: string;
+  rows?: number;
+  value: (v: any) => void,
+}
+
+export default function TextField({ name, value, rows, type, initialValue }: ITextField) {
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     value({ [target.name]: target.value })
   }

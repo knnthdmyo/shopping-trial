@@ -44,9 +44,12 @@ const App = () => {
   }
 
   const _delete = (body: ProductTypes) => {
-    const new_id = productLists.products[productLists.products.length - 1].id + 1;
+    console.log(body)
+    const index = productLists.products.findIndex(({ id }) => body.id);
 
-    console.log(new_id);
+    const updated_products = [...productLists.products];
+    updated_products.splice(index, 1)
+    setProductList((prev) => ({ ...prev, products: updated_products }))
     return body;
   }
 
@@ -75,7 +78,7 @@ const App = () => {
     >
       <Router>
         <Suspense fallback={<BaseLoader />}>
-          <nav className="sticky top-0 z-10 flex flex-grow p-5 w-screen text-center text-grey-darkest items-center sm:justify-between bg-white">
+          <nav className="sticky top-0 z-20 bg-red-500 text-gray-100 flex flex-grow p-5 w-screen text-center text-grey-darkest items-center sm:justify-between bg-white">
             <Link to={ROUTES.HOME} className="flex items-center gap-2 text-2xl hover:text-blue">
               <i className="bi bi-shop-window text-2xl" />
               Shopping - Trial
@@ -90,7 +93,7 @@ const App = () => {
               </Link>
             </div>
           </nav>
-          <div className="m-auto w-screen">
+          <div className="m-auto w-screen bg-gray-100  h-screen">
             <Routes>
               <Route path={ROUTES.HOME} element={<Shop />} />
               <Route path={ROUTES.CART} element={<Cart />} />
