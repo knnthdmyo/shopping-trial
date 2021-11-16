@@ -1,5 +1,7 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
+import { CATEGORIES } from '../constants/options';
+import Dropdown from "../components/common/Dropdown";
 import TextField from "../components/common/TextField";
 import { ProductTypes } from "../constants/types";
 import Products from '../providers/store';
@@ -39,18 +41,22 @@ const AddNew = () => {
       <form onSubmit={handleSubmit} className="flex flex-col gap-2  bg-white  shadow-2xl rounded-xl border border-2 p-5 w-2/4">
         <TextField disabled={submitSuccess} name="title" value={handleOnChange} initialValue={formData.title} />
         <TextField disabled={submitSuccess} rows={2} name="description" value={handleOnChange} initialValue={formData.description} />
+        <Dropdown disabled={submitSuccess} name="category" value={handleOnChange} initialValue={formData.category} options={CATEGORIES} />
         <TextField disabled={submitSuccess} type="number" name="price" value={handleOnChange} initialValue={String(formData.price)} />
-        {!submitSuccess && (
+        {submitSuccess ? (
+          <span className="text-sm self-end">
+            {`Item ${state ? 'updated' : 'added'} sucessfully. Click `}
+            <button className="text-blue underline font-semibold" onClick={() => navigate('/')}>
+              here
+            </button>
+            {'  to return to shop.'}
+          </span>
+        ) : (
           <button type="submit" className="self-end text-xs py-2 px-4 bg-red-500 text-white rounded-xl font-semibold uppercase">
-            Submit
+            {state ? 'Save Changes' : 'Submit'}
           </button>
         )}
       </form>
-      {submitSuccess && (
-        <button onClick={() => navigate('/')}>
-          Return To Shop
-        </button>
-      )}
     </div >
   );
 }

@@ -16,7 +16,7 @@ const Shop = () => {
   const [catFilters, setCatFilters] = useState<string[]>(['']);
   const [view, setView] = useState<string>('list');
 
-  useEffect(() => { setItems(products.reverse()) }, [products])
+  useEffect(() => { setItems(products) }, [products])
 
   useEffect(() => {
     if (products.length !== 0) {
@@ -31,7 +31,6 @@ const Shop = () => {
         .filter((item) => Object.keys(item)
           .some((key: string) => String(item[key]).match((new RegExp(keyword, 'i')))))
 
-      console.log(result);
       setItems(result);
     } else {
       setItems(products);
