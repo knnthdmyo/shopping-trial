@@ -27,7 +27,11 @@ const Shop = () => {
 
   const handleSearchChange = (keyword: string) => {
     if (keyword) {
-      const result = products.filter((item) => Object.keys(item).some((key: string) => (item: Record<string, any>) => String(item[key]).match((new RegExp(keyword, 'i')))))
+      const result = products
+        .filter((item) => Object.keys(item)
+          .some((key: string) => String(item[key]).match((new RegExp(keyword, 'i')))))
+
+      console.log(result);
       setItems(result);
     } else {
       setItems(products);
