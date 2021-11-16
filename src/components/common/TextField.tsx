@@ -5,12 +5,13 @@ export interface ITextField {
   initialValue?: string;
   name: string;
   rows?: number;
-  value: (v: any) => void,
+  value: (v: any) => void;
+  disabled?: boolean;
 }
 
-export default function TextField({ name, value, rows, type, initialValue }: ITextField) {
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    value({ [target.name]: target.value })
+export default function TextField({ name, value, rows, type, initialValue, disabled }: ITextField) {
+  const onChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    value({ [target.name]: type === 'number' ? Number(target.value) : target.value })
   }
 
   return (
@@ -18,8 +19,11 @@ export default function TextField({ name, value, rows, type, initialValue }: ITe
       <span className="text=sm capitalize">{name}</span>
       {rows ? (
         <textarea
+          disabled={disabled}
           rows={rows}
+          name={name}
           value={initialValue}
+          onChange={onChange}
           className="text-sm border border-2 border-gray-500 rounded-lg focus:border-blue px-2 py-1 resize-none"
           placeholder={`enter ${name}`}
         />
@@ -27,6 +31,7 @@ export default function TextField({ name, value, rows, type, initialValue }: ITe
         <input
           type={type}
           name={name}
+          disabled={disabled}
           value={initialValue}
           onChange={onChange}
           className="text-sm border border-gray-500 border-2 rounded-lg focus:border-blue px-2 py-1"

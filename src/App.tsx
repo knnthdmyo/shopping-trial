@@ -4,6 +4,7 @@ import BaseLoader from './components/common/loader';
 import Products from './providers/store';
 import * as ROUTES from './constants/routes';
 import { ProductTypes } from './constants/types';
+import { is_empty } from './utils/objectHelpers';
 
 const Shop = lazy(() => import('./pages/Shop'));
 const Cart = lazy(() => import('./pages/Cart'));
@@ -31,22 +32,24 @@ const App = () => {
 
   const _create = (body: ProductTypes) => {
     const new_id = productLists.products[productLists.products.length - 1].id + 1;
-
-    console.log(new_id);
+    console.log(body);
+    setProductList((prev) => ({
+      ...prev, products: [...prev.products, { ...body, id: new_id }]
+    }))
+    alert('add item successful')
     return body;
   }
 
   const _update = (body: ProductTypes) => {
-    const new_id = productLists.products[productLists.products.length - 1].id + 1;
-
-    console.log(new_id);
+    const index = productLists.products.findIndex(({ id }) => body.id);
+    const updated_products = [...productLists.products];
+    updated_products.splice(index, 1, body)
+    setProductList((prev) => ({ ...prev, products: updated_products }))
     return body;
   }
 
   const _delete = (body: ProductTypes) => {
-    console.log(body)
     const index = productLists.products.findIndex(({ id }) => body.id);
-
     const updated_products = [...productLists.products];
     updated_products.splice(index, 1)
     setProductList((prev) => ({ ...prev, products: updated_products }))
@@ -76,32 +79,37 @@ const App = () => {
         cart_add: cart_add,
       }}
     >
-      <Router>
-        <Suspense fallback={<BaseLoader />}>
-          <nav className="sticky top-0 z-20 bg-red-500 text-gray-100 flex flex-grow p-5 w-screen text-center text-grey-darkest items-center sm:justify-between bg-white">
-            <Link to={ROUTES.HOME} className="flex items-center gap-2 text-2xl hover:text-blue">
-              <i className="bi bi-shop-window text-2xl" />
-              Shopping - Trial
-            </Link>
-            <div className="flex gap-4 justify-between">
-              <Link to={ROUTES.CART} className="flex px-4 gap-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
-                <span>
-                  <i className="bi bi-cart" />
-                  {productLists.cart.length}
-                </span>
-                Cart
+      <div className="w-screen">
+        <Router>
+          <Suspense fallback={<BaseLoader />}>
+            <nav className="sticky top-0 z-20 bg-red-500 p-4 text-gray-100 flex flex-grow w-full text-center text-grey-darkest items-center sm:justify-between bg-white">
+              <Link to={ROUTES.HOME} className="flex items-center gap-2 text-2xl hover:text-blue">
+                <i className="bi bi-shop-window text-2xl" />
+                Shopping - Trial
               </Link>
+              <div className="flex gap-4 justify-between">
+                <Link to={ROUTES.CART} className="flex px-4 gap-2 items-center">
+                  <span className="relative mr-2">
+                    <i className="bi bi-cart text-2xl stroke-current stroke-2" />
+                    {!is_empty(productLists.cart) && (
+                      <span className="text-xs absolute -top-1 -right-2 bg-white text-black p-0.5 px-1 rounded-full">
+                        {productLists.cart.length}
+                      </span>
+                    )}
+                  </span>
+                </Link>
+              </div>
+            </nav>
+            <div className="m-auto w-full bg-gray-100">
+              <Routes>
+                <Route path={ROUTES.HOME} element={<Shop />} />
+                <Route path={ROUTES.CART} element={<Cart />} />
+                <Route path={ROUTES.NEW_ITEM} element={<AddNew />} />
+              </Routes>
             </div>
-          </nav>
-          <div className="m-auto w-screen bg-gray-100  h-screen">
-            <Routes>
-              <Route path={ROUTES.HOME} element={<Shop />} />
-              <Route path={ROUTES.CART} element={<Cart />} />
-              <Route path={ROUTES.NEW_ITEM} element={<AddNew />} />
-            </Routes>
-          </div>
-        </Suspense>
-      </Router>
+          </Suspense>
+        </Router>
+      </div>
     </Products.Provider>
   );
 }

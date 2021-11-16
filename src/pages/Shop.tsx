@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Products from '../providers/store';
-import Card from '../components/common/Card';
+import ItemCard from '../components/common/ItemCard';
 import ItemEntry from '../components/common/ItemEntry';
 import Navbar from '../components/common/Navbar';
 import ItemLoader from '../components/common/ItemLoader';
@@ -16,7 +16,7 @@ const Shop = () => {
   const [catFilters, setCatFilters] = useState<string[]>(['']);
   const [view, setView] = useState<string>('list');
 
-  useEffect(() => { setItems(products) }, [products])
+  useEffect(() => { setItems(products.reverse()) }, [products])
 
   useEffect(() => {
     if (products.length !== 0) {
@@ -27,7 +27,6 @@ const Shop = () => {
 
   const handleSearchChange = (keyword: string) => {
     if (keyword) {
-      console.log(keyword)
       const result = products.filter((item) => Object.keys(item).some((key: string) => (item: Record<string, any>) => String(item[key]).match((new RegExp(keyword, 'i')))))
       setItems(result);
     } else {
@@ -57,10 +56,12 @@ const Shop = () => {
           view === 'grid' ? (
             <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-8 w-full">
               {items.map((item, i) => (
-                <Card
+                <ItemCard
                   key={i}
-                  onClick={() => cart_add([...cart, item])}
                   product={item}
+                  onEdit={() => navigate(ROUTES.NEW_ITEM, { state: { ...item } })}
+                  onAdd={() => cart_add([...cart, item])}
+                  onDelete={() => _delete(item)}
                 />
               ))}
             </div>

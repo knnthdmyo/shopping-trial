@@ -31,7 +31,7 @@ const Cart = () => {
       {displayedItems.map((item, i) => <ItemEntry key={i} product={item} hideButton />)}
       <div className="flex flex-grow gap-4 sticky bottom-0 w-screen p-5 bg-white">
         <div className="self-end items-center flex gap-4 text-2xl text-gray-700">
-          {`Total: $${cart.reduce((ac, { price }) => ac + price, 0).toFixed(2)}`}
+          {`Total: $${cart.reduce((ac, { price }) => ac + Number(price), 0).toFixed(2)}`}
           <button className="bg-red-700 w-max text-white cursor-pointer px-4 py-2 rounded-lg text-sm">
             Proceed to Checkout
           </button>
