@@ -5,8 +5,9 @@ import Products from './providers/store';
 import * as ROUTES from './constants/routes';
 import { ProductTypes } from './constants/types';
 
-const Shop = lazy(() => import('./components/pages/Shop'));
-const Cart = lazy(() => import('./components/pages/Cart'));
+const Shop = lazy(() => import('./pages/Shop'));
+const Cart = lazy(() => import('./pages/Cart'));
+const AddNew = lazy(() => import('./pages/AddNew'));
 
 const App = () => {
   const [productLists, setProductList] = useState({ products: [], cart: [], });
@@ -18,16 +19,58 @@ const App = () => {
       .catch((err) => console.error(err))
   }, []);
 
-  const handleAddToCart = (cart: ProductTypes[]) => {
+  const cart_add = (cart: ProductTypes[]) => {
     setProductList((prevState) => ({ ...prevState, cart: cart }))
     return cart;
+  }
+
+  const cart_remove = (cart: ProductTypes[]) => {
+    setProductList((prevState) => ({ ...prevState, cart: cart }))
+    return cart;
+  }
+
+  const _create = (body: ProductTypes) => {
+    const new_id = productLists.products[productLists.products.length - 1].id + 1;
+
+    console.log(new_id);
+    return body;
+  }
+
+  const _update = (body: ProductTypes) => {
+    const new_id = productLists.products[productLists.products.length - 1].id + 1;
+
+    console.log(new_id);
+    return body;
+  }
+
+  const _delete = (body: ProductTypes) => {
+    const new_id = productLists.products[productLists.products.length - 1].id + 1;
+
+    console.log(new_id);
+    return body;
   }
 
   return (
     <Products.Provider
       value={{
         ...productLists,
-        updateCart: handleAddToCart,
+        initialState: {
+          id: 0,
+          title: '',
+          description: '',
+          price: 0,
+          rating: {
+            rate: 0,
+            count: 0,
+          },
+          category: '',
+          image: '',
+        },
+        create: _create,
+        update: _update,
+        delete: _delete,
+        cart_remove: cart_remove,
+        cart_add: cart_add,
       }}
     >
       <Router>
@@ -38,7 +81,7 @@ const App = () => {
               Shopping - Trial
             </Link>
             <div className="flex gap-4 justify-between">
-              <Link to={ROUTES.ABOUT} className="flex px-4 gap-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
+              <Link to={ROUTES.CART} className="flex px-4 gap-2 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl">
                 <span>
                   <i className="bi bi-cart" />
                   {productLists.cart.length}
@@ -50,7 +93,8 @@ const App = () => {
           <div className="m-auto w-screen">
             <Routes>
               <Route path={ROUTES.HOME} element={<Shop />} />
-              <Route path={ROUTES.ABOUT} element={<Cart />} />
+              <Route path={ROUTES.CART} element={<Cart />} />
+              <Route path={ROUTES.NEW_ITEM} element={<AddNew />} />
             </Routes>
           </div>
         </Suspense>

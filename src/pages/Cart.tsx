@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
-import ItemEntry from '../common/ItemEntry';
-import Navbar from '../common/Navbar';
-import Products from '../../providers/store';
-import { ProductTypes } from '../../constants/types';
+import ItemEntry from '../components/common/ItemEntry';
+import Navbar from '../components/common/Navbar';
+import Products from '../providers/store';
+import { ProductTypes } from '../constants/types';
 
 const Cart = () => {
   interface CartItems extends ProductTypes {

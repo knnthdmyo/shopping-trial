@@ -1,4 +1,5 @@
 export interface ProductTypes {
+  id?: number,
   title: string;
   description: string;
   price: number;
@@ -8,4 +9,12 @@ export interface ProductTypes {
   },
   category: string;
   image: string;
+}
+
+export interface IInput {
+  type?: string;
+  initialValue?: string;
+  name: string;
+  rows?: number;
+  value: (v: any) => void,
 }

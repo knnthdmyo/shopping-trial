@@ -1,2 +1,3 @@
 export const HOME = '/';
-export const ABOUT = '/cart';
+export const CART = '/cart';
+export const NEW_ITEM = '/new';

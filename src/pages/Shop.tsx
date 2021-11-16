@@ -1,14 +1,14 @@
 import { useEffect, useState, useContext } from 'react';
-import Products from '../../providers/store';
-import Card from '../common/Card';
-import ItemEntry from '../common/ItemEntry';
-import Navbar from '../common/Navbar';
-import ItemLoader from '../common/ItemLoader';
-import { is_empty } from '../../utils/objectHelpers';
-import { ProductTypes } from '../../constants/types';
+import Products from '../providers/store';
+import Card from '../components/common/Card';
+import ItemEntry from '../components/common/ItemEntry';
+import Navbar from '../components/common/Navbar';
+import ItemLoader from '../components/common/ItemLoader';
+import { is_empty } from '../utils/objectHelpers';
+import { ProductTypes } from '../constants/types';
 
 const Shop = () => {
-  const { products, updateCart, cart } = useContext(Products);
+  const { products, cart_add, cart } = useContext(Products);
   const [items, setItems] = useState<ProductTypes[]>([]);
   const [catFilters, setCatFilters] = useState<string[]>(['']);
   const [view, setView] = useState<string>('list');
@@ -28,6 +28,7 @@ const Shop = () => {
 
   const handleSearchChange = (keyword: string) => {
     if (keyword) {
+      console.log(keyword)
       const result = products.filter((item) => Object.keys(item).some((key: string) => (item: Record<string, any>) => String(item[key]).match((new RegExp(keyword, 'i')))))
       setItems(result);
     } else {
@@ -49,7 +50,7 @@ const Shop = () => {
   }
 
   useEffect(() => {
-    updateCart(selectedProducts)
+    cart_add(selectedProducts)
   }, [selectedProducts]);
 
   return (
