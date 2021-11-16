@@ -1,6 +1,6 @@
 import { Suspense, lazy, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import BaseLoader from './components/common/loader';
+import BaseLoader from './components/common/BaseLoader';
 import Products from './providers/store';
 import * as ROUTES from './constants/routes';
 import { ProductTypes } from './constants/types';
@@ -36,12 +36,11 @@ const App = () => {
     setProductList((prev) => ({
       ...prev, products: [...prev.products, { ...body, id: new_id }]
     }))
-    alert('add item successful')
     return body;
   }
 
   const _update = (body: ProductTypes) => {
-    const index = productLists.products.findIndex(({ id }) => body.id);
+    const index = productLists.products.findIndex(({ id }) => id === body.id);
     const updated_products = [...productLists.products];
     updated_products.splice(index, 1, body)
     setProductList((prev) => ({ ...prev, products: updated_products }))
@@ -49,7 +48,7 @@ const App = () => {
   }
 
   const _delete = (body: ProductTypes) => {
-    const index = productLists.products.findIndex(({ id }) => body.id);
+    const index = productLists.products.findIndex(({ id }) => id === body.id);
     const updated_products = [...productLists.products];
     updated_products.splice(index, 1)
     setProductList((prev) => ({ ...prev, products: updated_products }))
