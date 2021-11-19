@@ -99,7 +99,7 @@ const App = () => {
                 </Link>
               </div>
             </nav>
-            <div className="m-auto w-full bg-gray-100">
+            <div className="m-auto w-full h-screen bg-gray-100">
               <Routes>
                 <Route path={ROUTES.HOME} element={<Shop />} />
                 <Route path={ROUTES.CART} element={<Cart />} />

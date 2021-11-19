@@ -1,5 +1,5 @@
 export const CATEGORIES = [
-  'mens\'s clothing',
+  'men\'s clothing',
   'jewelry',
   'electronics',
 ];
