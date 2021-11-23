@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export interface IDropdown {
   name: string,
@@ -24,6 +24,8 @@ const Dropdown = ({ name, value, options, initialValue, disabled }: IDropdown) =
     value(({ [target.name]: target.value }))
   };
 
+
+  useEffect(() => { console.log(value); }, []);
 
   return (
     <span className="flex flex-col gap-1">
