@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export interface IDropdown {
   name: string,
@@ -9,34 +9,39 @@ export interface IDropdown {
 }
 
 const Dropdown = ({ name, value, options, initialValue, disabled }: IDropdown) => {
-  const [inputValue, setInputValue] = useState('');
   const [showOthers, setShowOthers] = useState(false);
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    if (e.target.value !== 'others') {
+  const handleChange = ({ target }: ChangeEvent<HTMLSelectElement>) => {
+    if (target.value !== 'others') {
       setShowOthers(false)
-      setInputValue(e.target.value)
+      value(({ [target.name]: target.value }))
     } else {
       setShowOthers(true)
     }
   }
 
-  const textChange = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
+  const textChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    value(({ [target.name]: target.value }))
+  };
 
-  useEffect(() => {
-    value({ [name]: inputValue });
-  }, [name, inputValue]);
 
   return (
     <span className="flex flex-col gap-1">
       <h6 className="capitalize text-sm">{name}</h6>
-      <select disabled={disabled} className="border border-gray-500 border-2 rounded-lg py-1 px-2 w-full" defaultValue={initialValue} onChange={handleChange}>
+      <select
+        disabled={disabled}
+        className="border border-gray-500 border-2 rounded-lg py-1 px-2 w-full"
+        defaultValue={initialValue}
+        onChange={handleChange}
+        name={name}
+      >
         {[...options, 'others'].map((option, i) => (
-          <option key={i} value={option}>{option}</option>
+          <option key={i} value={option}>
+            {option}
+          </option>
         ))}
       </select>
-      {showOthers && <input disabled={disabled} onChange={textChange} className="border border-gray-500 border-2 py-1 px-2 rounded-lg w-full" placeholder="enter specific category" />}
+      {showOthers && <input name={name} disabled={disabled} onChange={textChange} className="border border-gray-500 border-2 py-1 px-2 rounded-lg w-full" placeholder="enter specific category" />}
     </span>
   );
 }

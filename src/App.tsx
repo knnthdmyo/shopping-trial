@@ -32,7 +32,6 @@ const App = () => {
 
   const _create = (body: ProductTypes) => {
     const new_id = productLists.products[productLists.products.length - 1].id + 1;
-    console.log(body);
     setProductList((prev) => ({
       ...prev, products: [...prev.products, { ...body, id: new_id }]
     }))
@@ -81,7 +80,7 @@ const App = () => {
       <div className="w-screen">
         <Router>
           <Suspense fallback={<BaseLoader />}>
-            <nav className="sticky top-0 z-20 bg-red-500 p-4 text-gray-100 flex flex-grow w-full text-center text-grey-darkest items-center sm:justify-between bg-white">
+            <nav className="sticky top-0 z-10 bg-red-500 p-4 text-gray-100 flex flex-grow w-full text-center text-grey-darkest items-center sm:justify-between bg-white">
               <Link to={ROUTES.HOME} className="flex items-center gap-2 text-2xl hover:text-blue">
                 <i className="bi bi-shop-window text-2xl" />
                 Shopping - Trial
@@ -99,7 +98,7 @@ const App = () => {
                 </Link>
               </div>
             </nav>
-            <div className="m-auto w-full h-screen bg-gray-100">
+            <div className="m-auto w-full">
               <Routes>
                 <Route path={ROUTES.HOME} element={<Shop />} />
                 <Route path={ROUTES.CART} element={<Cart />} />

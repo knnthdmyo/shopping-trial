@@ -40,7 +40,7 @@ const Card = ({ product, buttonLabel, onAdd, onDelete, onEdit }: ICard) => {
       <div className="flex w-full justify-between items-center gap-2">
         {`$ ${Number(price).toFixed(2)}`}
         <button
-          className="flex ease-in-out transform hover:-translate-y-1 hover:shadow-2xl transition duration-500 gap-2 bg-red-500 hover:bg-red-600 pointer-cursor text-white px-3 py-2 border rounded-xl"
+          className="flex ease-in-out transform hover:-translate-y-1 hover:shadow-3xl transition duration-500 gap-2 bg-red-500 hover:bg-red-600 pointer-cursor text-white px-3 py-2 border rounded-xl"
           onClick={onAdd}
         >
           <i className="bi bi-cart-plus"></i>

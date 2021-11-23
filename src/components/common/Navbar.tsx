@@ -19,7 +19,7 @@ const Navbar = ({ handleToggleChange, hideFilterButton, hideToggle, handleSearch
   const [showFilters, setShowFilters] = useState(false);
 
   return (
-    <span className="flex flex-col bg-gray-200 gap-0 sticky py-3 px-5 z-11 w-full top-16">
+    <span className="flex flex-col bg-gray-200 gap-0 sticky py-3 px-5 z-10 w-full top-16">
       <span className="flex sticky flex-grow gap-4 justify-between">
         <SearchBox onChange={(keyword) => handleSearch(keyword)} />
         {!hideFilterButton && (

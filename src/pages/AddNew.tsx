@@ -26,8 +26,6 @@ const AddNew = () => {
     }
   }
 
-  useEffect(() => { console.log(formData) }, [formData])
-
   return (
     <div className="flex flex-col w-full px-5 py-2">
       <span className="flex flex-grow gap-2 items-center w-full mb-5">
