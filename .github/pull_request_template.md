@@ -1,14 +1,22 @@
+## Overview
+
+A short description of changes made for this pull request
+
 ### Added
 
-A list of new added features
+List of new added features
 
 ### Changed
 
-A list of changes made to an already existing feature
+List of changes made to an already existing feature
 
 ### Removed
 
-A list of removed files
+List of removed files / features
+
+### Deprecated
+
+List soon-to-be removed features
 
 ### Demo (optional)
 
